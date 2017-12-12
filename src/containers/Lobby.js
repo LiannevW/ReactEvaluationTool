@@ -2,55 +2,55 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import fetchGames, { fetchPlayers } from '../actions/games/fetch'
+import fetchEvaluations, { fetchPlayers } from '../actions/evaluations/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
-import CreateGameButton from '../components/games/CreateGameButton'
+import CreateEvaluationButton from '../components/evaluations/CreateEvaluationButton'
 import Paper from 'material-ui/Paper'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
-import WatchGameIcon from 'material-ui/svg-icons/image/remove-red-eye'
-import JoinGameIcon from 'material-ui/svg-icons/social/person-add'
-import PlayGameIcon from 'material-ui/svg-icons/hardware/videogame-asset'
+import WatchEvaluationIcon from 'material-ui/svg-icons/image/remove-red-eye'
+import JoinEvaluationIcon from 'material-ui/svg-icons/social/person-add'
+import PlayEvaluationIcon from 'material-ui/svg-icons/hardware/videogame-asset'
 import WaitingIcon from 'material-ui/svg-icons/image/timelapse'
 import './Lobby.css'
 
 class Lobby extends PureComponent {
   componentWillMount() {
-    this.props.fetchGames()
+    this.props.fetchEvaluations()
     this.props.subscribeToWebsocket()
   }
 
-  goToGame = gameId => event => this.props.push(`/play/${gameId}`)
+  goToEvaluation = evaluationId => event => this.props.push(`/play/${evaluationId}`)
 
-  isJoinable(game) {
-    return game.players.length < 2 &&
-      !this.isPlayer(game)
+  isJoinable(evaluation) {
+    return evaluation.players.length < 2 &&
+      !this.isPlayer(evaluation)
   }
 
-  isPlayer(game) {
+  isPlayer(evaluation) {
     if (!this.props.currentUser) { return false }
-    return game.players.map(p => p.userId)
+    return evaluation.players.map(p => p.userId)
       .indexOf(this.props.currentUser._id) >= 0
   }
 
-  isPlayable(game) {
-    return this.isPlayer(game) && game.players.length === 2
+  isPlayable(evaluation) {
+    return this.isPlayer(evaluation) && evaluation.players.length === 2
   }
 
-  renderGame = (game, index) => {
-    let ActionIcon = this.isJoinable(game) ? JoinGameIcon : WatchGameIcon
-    if (this.isPlayer(game)) ActionIcon = this.isPlayable(game) ? PlayGameIcon : WaitingIcon
+  renderEvaluation = (evaluation, index) => {
+    let ActionIcon = this.isJoinable(evaluation) ? JoinEvaluationIcon : WatchEvaluationIcon
+    if (this.isPlayer(evaluation)) ActionIcon = this.isPlayable(evaluation) ? PlayEvaluationIcon : WaitingIcon
 
-    if (!game.players[0].name) { this.props.fetchPlayers(game) }
+    if (!evaluation.players[0].name) { this.props.fetchPlayers(evaluation) }
 
-    const title = game.players.map(p => (p.name || null))
+    const title = evaluation.players.map(p => (p.name || null))
       .filter(n => !!n)
       .join(' vs ')
 
     return (
       <MenuItem
         key={index}
-        onClick={this.goToGame(game._id)}
+        onClick={this.goToEvaluation(evaluation._id)}
         rightIcon={<ActionIcon />}
         primaryText={title} />
     )
@@ -60,10 +60,10 @@ class Lobby extends PureComponent {
     return (
       <div className="Lobby">
         <h1>Lobby!</h1>
-        <CreateGameButton />
+        <CreateEvaluationButton />
         <Paper className="paper">
           <Menu>
-            {this.props.games.map(this.renderGame)}
+            {this.props.evaluations.map(this.renderEvaluation)}
           </Menu>
         </Paper>
       </div>
@@ -71,6 +71,6 @@ class Lobby extends PureComponent {
   }
 }
 
-const mapStateToProps = ({ games, currentUser }) => ({ games, currentUser })
+const mapStateToProps = ({ evaluations, currentUser }) => ({ evaluations, currentUser })
 
-export default connect(mapStateToProps, { fetchGames, subscribeToWebsocket, fetchPlayers, push })(Lobby)
+export default connect(mapStateToProps, { fetchEvaluations, subscribeToWebsocket, fetchPlayers, push })(Lobby)

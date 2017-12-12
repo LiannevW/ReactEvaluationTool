@@ -1,4 +1,4 @@
-// src/actions/games/fetch.js
+// src/actions/evaluations/fetch.js
 
 import API from '../../api/client'
 import {
@@ -18,7 +18,7 @@ export default () => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
-    api.get('/games')
+    api.get('/evaluations')
       .then((result) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
@@ -38,11 +38,11 @@ export default () => {
   }
 }
 
-export const fetchPlayers = (game) => {
+export const fetchPlayers = (evaluation) => {
   return dispatch => {
     dispatch({ type: APP_LOADING })
 
-    api.get(`/games/${game._id}/players`)
+    api.get(`/evaluations/${evaluation._id}/players`)
       .then((result) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
@@ -50,7 +50,7 @@ export const fetchPlayers = (game) => {
         dispatch({
           type: GAME_PLAYERS_UPDATED,
           payload: {
-            game,
+            evaluation,
             players: result.body
           }
         })
@@ -65,11 +65,11 @@ export const fetchPlayers = (game) => {
   }
 }
 
-export const fetchOneGame = (gameId) => {
+export const fetchOneEvaluation = (evaluationId) => {
   return dispatch => {
     dispatch({ type: APP_LOADING })
 
-    api.get(`/games/${gameId}`)
+    api.get(`/evaluations/${evaluationId}`)
       .then((result) => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })

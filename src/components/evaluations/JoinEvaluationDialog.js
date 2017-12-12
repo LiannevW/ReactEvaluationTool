@@ -5,16 +5,16 @@ import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import joinGame from '../../actions/games/join'
+import joinEvaluation from '../../actions/evaluations/join'
 
-class JoinGameDialog extends PureComponent {
+class JoinEvaluationDialog extends PureComponent {
   static propTypes = {
     open: PropTypes.bool,
   }
 
-  joinGame = () => {
-    const { joinGame, game } = this.props
-    joinGame(game)
+  joinEvaluation = () => {
+    const { joinEvaluation, evaluation } = this.props
+    joinEvaluation(evaluation)
   }
 
   render() {
@@ -29,39 +29,39 @@ class JoinGameDialog extends PureComponent {
           primary={true} />
       </Link>,
       <RaisedButton
-        label="Join Game"
+        label="Join Evaluation"
         primary={true}
         keyboardFocused={true}
-        onClick={this.joinGame}
+        onClick={this.joinEvaluation}
       />,
     ]
 
     return (
       <div>
         <Dialog
-          title="Join Game"
+          title="Join Evaluation"
           actions={actions}
           modal={false}
           open={open}
           onRequestClose={this.handleClose}
         >
-          Hey <strong>{currentUser.name || 'there'}!</strong> Would you like to join this game?
+          Hey <strong>{currentUser.name || 'there'}!</strong> Would you like to join this evaluation?
         </Dialog>
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ currentUser, games }, { gameId }) => {
-  const game = games.filter((g) => (g._id === gameId))[0]
-  const isPlayer = game && game.players.filter((p) => (p.userId === currentUser._id)).length > 0
+const mapStateToProps = ({ currentUser, evaluations }, { evaluationId }) => {
+  const evaluation = evaluations.filter((g) => (g._id === evaluationId))[0]
+  const isPlayer = evaluation && evaluation.players.filter((p) => (p.userId === currentUser._id)).length > 0
 
   return {
-    game,
+    evaluation,
     currentUser,
     isPlayer,
-    open: game && !isPlayer && game.players.length < 2
+    open: evaluation && !isPlayer && evaluation.players.length < 2
   }
 }
 
-export default connect(mapStateToProps, { joinGame })(JoinGameDialog)
+export default connect(mapStateToProps, { joinEvaluation })(JoinEvaluationDialog)
