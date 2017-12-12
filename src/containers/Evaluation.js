@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchOneGame, fetchPlayers } from '../actions/games/fetch'
+import { fetchOneEvaluation, fetchPlayers } from '../actions/evaluations/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
-import JoinGameDialog from '../components/games/JoinGameDialog'
+import JoinEvaluationDialog from '../components/evaluations/JoinEvaluationDialog'
 
 const playerShape = PropTypes.shape({
   userId: PropTypes.string.isRequired,
@@ -11,12 +11,12 @@ const playerShape = PropTypes.shape({
   name: PropTypes.string
 })
 
-class Game extends PureComponent {
+class Evaluation extends PureComponent {
   static propTypes = {
-    fetchOneGame: PropTypes.func.isRequired,
+    fetchOneEvaluation: PropTypes.func.isRequired,
     fetchPlayers: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
-    game: PropTypes.shape({
+    evaluation: PropTypes.shape({
       _id: PropTypes.string.isRequired,
       userId: PropTypes.string.isRequired,
       players: PropTypes.arrayOf(playerShape),
@@ -39,33 +39,33 @@ class Game extends PureComponent {
   }
 
   componentWillMount() {
-    const { game, fetchOneGame, subscribeToWebsocket } = this.props
-    const { gameId } = this.props.match.params
+    const { evaluation, fetchOneEvaluation, subscribeToWebsocket } = this.props
+    const { evaluationId } = this.props.match.params
 
-    if (!game) { fetchOneGame(gameId) }
+    if (!evaluation) { fetchOneEvaluation(evaluationId) }
     subscribeToWebsocket()
   }
 
   componentWillReceiveProps(nextProps) {
-    const { game } = nextProps
+    const { evaluation } = nextProps
 
-    if (game && !game.players[0].name) {
-      this.props.fetchPlayers(game)
+    if (evaluation && !evaluation.players[0].name) {
+      this.props.fetchPlayers(evaluation)
     }
   }
 
   render() {
-    const { game } = this.props
+    const { evaluation } = this.props
 
-    if (!game) return null
+    if (!evaluation) return null
 
-    const title = game.players.map(p => (p.name || null))
+    const title = evaluation.players.map(p => (p.name || null))
       .filter(n => !!n)
       .join(' vs ')
 
     return (
-      <div className="Game">
-        <h1>Game!</h1>
+      <div className="Evaluation">
+        <h1>Evaluation!</h1>
         <p>{title}</p>
 
         <h1>YOUR GAME HERE! :)</h1>
@@ -73,27 +73,27 @@ class Game extends PureComponent {
         <h2>Debug Props</h2>
         <pre>{JSON.stringify(this.props, true, 2)}</pre>
 
-        <JoinGameDialog gameId={game._id} />
+        <JoinEvaluationDialog evaluationId={evaluation._id} />
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ currentUser, games }, { match }) => {
-  const game = games.filter((g) => (g._id === match.params.gameId))[0]
-  const currentPlayer = game && game.players.filter((p) => (p.userId === currentUser._id))[0]
-  const hasTurn = !!currentPlayer && game.players[game.turn].userId === currentUser._id
+const mapStateToProps = ({ currentUser, evaluations }, { match }) => {
+  const evaluation = evaluations.filter((g) => (g._id === match.params.evaluationId))[0]
+  const currentPlayer = evaluation && evaluation.players.filter((p) => (p.userId === currentUser._id))[0]
+  const hasTurn = !!currentPlayer && evaluation.players[evaluation.turn].userId === currentUser._id
   return {
     currentPlayer,
-    game,
+    evaluation,
     isPlayer: !!currentPlayer,
     hasTurn,
-    isJoinable: game && !currentPlayer && game.players.length < 2
+    isJoinable: evaluation && !currentPlayer && evaluation.players.length < 2
   }
 }
 
 export default connect(mapStateToProps, {
   subscribeToWebsocket,
-  fetchOneGame,
+  fetchOneEvaluation,
   fetchPlayers
-})(Game)
+})(Evaluation)

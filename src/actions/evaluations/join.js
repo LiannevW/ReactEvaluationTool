@@ -1,4 +1,4 @@
-// src/actions/games/join.js
+// src/actions/evaluations/join.js
 import API from '../../api/client'
 import {
   APP_LOADING,
@@ -9,11 +9,11 @@ import {
 
 const api = new API()
 
-export default (game) => {
+export default (evaluation) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
-    api.post(`/games/${game._id}/players`, {})
+    api.post(`/evaluations/${evaluation._id}/players`, {})
       .then(() => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })
