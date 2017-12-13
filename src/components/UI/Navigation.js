@@ -9,7 +9,7 @@ import IconButton from 'material-ui/IconButton'
 import EvaluationIcon from 'material-ui/svg-icons/hardware/videogame-asset'
 import FlatButton from 'material-ui/FlatButton'
 
-const TITLE = 'Play Memory'
+const TITLE = 'Evaluation Tool for Teachers'
 
 class Navigation extends PureComponent {
   static propTypes = {

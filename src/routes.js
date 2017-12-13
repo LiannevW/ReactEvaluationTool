@@ -1,10 +1,10 @@
 // src/routes.js
 import React, { Component } from 'react'
 import { Route } from 'react-router-dom'
+import BatchContainer from './components/BatchContainer'
+
 
 import {
-  Lobby,
-  Evaluation,
   SignIn,
   SignUp
 } from './containers'
@@ -13,8 +13,7 @@ export default class Routes extends Component {
   render() {
     return (
       <div>
-        <Route exact path="/" component={Lobby} />
-        <Route path="/play/:evaluationId" component={Evaluation} />
+        <Route exact path="/" component={BatchContainer} />
         <Route path="/sign-in" component={SignIn} />
         <Route path="/sign-up" component={SignUp} />
       </div>
