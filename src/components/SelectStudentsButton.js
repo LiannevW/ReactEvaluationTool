@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import StarIcon from 'material-ui/svg-icons/action/favorite'
 import createEvaluation from '../../actions/evaluations/create'
 
-class CreateEvaluationButton extends PureComponent {
+class SelectStudentsButton extends PureComponent {
   static propTypes = {
     signedIn: PropTypes.bool,
   }
@@ -30,4 +30,4 @@ const mapStateToProps = ({ currentUser }) => ({
   signedIn: !!currentUser && !!currentUser._id,
 })
 
-export default connect(mapStateToProps, { createEvaluation })(CreateEvaluationButton)
+export default connect(mapStateToProps, { createEvaluation })(SelectStudentsButton)
