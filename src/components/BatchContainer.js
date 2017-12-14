@@ -29,7 +29,7 @@ class BatchContainer extends PureComponent {
     return(
       <div>
         <header>
-          <p>All current batches</p>
+          <h1>All current batches</h1>
         </header>
 
         <main>
