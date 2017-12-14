@@ -1,5 +1,6 @@
 import { FETCHED_BATCHES } from '../actions/batch/fetch'
 import { FETCHED_ONE_BATCH } from '../actions/batch/fetch'
+import { BATCH_CREATED } from '../actions/batch/create'
 
 export default (state = [], { type, payload } = {}) => {
   switch(type) {
@@ -17,6 +18,11 @@ export default (state = [], { type, payload } = {}) => {
         }
         return batch
       })
+
+    case BATCH_CREATED :
+      const newBatch = { ...payload }
+      return [newBatch].concat(state)
+
 
     default :
       return state

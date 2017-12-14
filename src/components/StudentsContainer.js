@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {push} from 'react-router-redux'
 import { fetchOneBatch } from '../actions/batch/fetch'
-import { Link } from 'react-router-dom'
 import './StudentsContainer.css'
 
 class Batch extends PureComponent {

@@ -4,6 +4,7 @@ import { push } from 'react-router-redux'
 import fetchBatch from '../actions/batch/fetch'
 import BatchItem from './BatchItem'
 import PropTypes from 'prop-types'
+import BatchEditor from './BatchEditor'
 
 
 class BatchContainer extends PureComponent {
@@ -34,6 +35,10 @@ class BatchContainer extends PureComponent {
         <main>
            {batches.map(this.renderBatch)}
         </main>
+
+        <footer>
+          <BatchEditor />
+        </footer>
       </div>
     )
   }
