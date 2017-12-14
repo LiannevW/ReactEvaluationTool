@@ -22,3 +22,6 @@ export default class Routes extends Component {
     )
   }
 }
+
+// import StudentItem from './components/StudentItem'
+// <Route path= "/batches/:batchId/:studentsId" component={StudentItem} />

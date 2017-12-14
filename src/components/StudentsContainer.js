@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {push} from 'react-router-redux'
 import { fetchOneBatch } from '../actions/batch/fetch'
+import EvaluationPercentages from './EvaluationPercentages'
 import './StudentsContainer.css'
 
 class Batch extends PureComponent {
@@ -38,13 +39,20 @@ class Batch extends PureComponent {
 
     return(
       <div>
-        <h1>This is batch.. #{batch.number}</h1>
 
-        {batch.students.map((student) =>
-          <li>{student.firstName} <br />
-              <img className="picture" src={student.picture} alt=""/>
-          </li>
-        )}
+        <header>
+          <h1>This is batch.. #{batch.number}</h1>
+          <EvaluationPercentages />
+          <p>button to pick a student here</p>
+        </header>
+
+        <main>
+          {batch.students.map((student) =>
+            <li>{student.firstName} <br />
+                <img className="picture" src={student.picture} alt=""/>
+            </li>
+          )}
+        </main>
 
       </div>
     )
