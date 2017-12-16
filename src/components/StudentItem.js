@@ -8,6 +8,9 @@ import './StudentItem.css'
 class StudentItem extends PureComponent {
   constructor(props) {
     super()
+
+  const { remark, date, colour} = props
+  this.state = { remark, date, colour }
   }
 
   componentWillMount() {
@@ -17,21 +20,37 @@ class StudentItem extends PureComponent {
     if (!batch) { fetchOneBatch(batchId) }
   }
 
+  renderEvaluation = (evaluation, index) => {
+    return (
+      <div>
+         <p key={index}>
+         Colour = {evaluation.colour} <br />
+         Remark={evaluation.remark} < br/>
+         datum={evaluation.date}</p>
+       </div>
+    )
+  }
+
   render() {
     const { batch } = this.props
     if (!batch) return null
     const {studentId} = this.props.match.params
     const thisStudent = batch.students.filter((s) => (s._id === studentId))[0]
+    console.log(thisStudent);
+    console.log(thisStudent.evaluation);
+    console.log(thisStudent.evaluation.remark);
 
-    return(
+    return (
       <div>
         <h1> {thisStudent.firstName} </h1>
         <img className="pictureStudent" src={thisStudent.picture} alt=""/>
         <p> Name: {thisStudent.firstName} {thisStudent.lastName} </p>
+        {thisStudent.evaluation.map(this.renderEvaluation)}
       </div>
     )
   }
 }
+
 
 const mapStateToProps = ({ currentUser, batches }, { match }) => {
   const batch = batches.filter((b) => (b._id === match.params.batchId))[0]
