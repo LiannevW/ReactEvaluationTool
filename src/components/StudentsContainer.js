@@ -28,9 +28,10 @@ class Batch extends PureComponent {
   componentWillMount() {
     const { batch, fetchOneBatch } = this.props
     const { batchId } = this.props.match.params
-
     if (!batch) { fetchOneBatch(batchId) }
   }
+
+  linkToOneStudent = (batchId, studentsId) => event => this.props.push(`/class/${batchId}/${studentsId}`)
 
   render() {
     const { batch } = this.props
@@ -48,7 +49,7 @@ class Batch extends PureComponent {
 
         <main>
           {batch.students.map((student) =>
-            <li>{student.firstName} <br />
+            <li> <p onClick={this.linkToOneStudent(batch._id, student._id)}> {student.firstName} </p> <br />
                 <img className="picture" src={student.picture} alt=""/>
             </li>
           )}
@@ -61,7 +62,7 @@ class Batch extends PureComponent {
 
 // filter as in GameContainer
 const mapStateToProps = ({ batches }, { match }) => {
-  const batch = batches.filter((g) => (g._id === match.params.batchId))[0]
+  const batch = batches.filter((b) => (b._id === match.params.batchId))[0]
 
   return {
     batch
