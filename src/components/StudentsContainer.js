@@ -1,28 +1,16 @@
 import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {push} from 'react-router-redux'
 import { fetchOneBatch } from '../actions/batch/fetch'
 import './StudentsContainer.css'
 
 class Batch extends PureComponent {
-  static propTypes = {
-    fetchOneBatch: PropTypes.func,
-    batch: PropTypes.shape({
-      _id: PropTypes.string,
-      number: PropTypes.number,
-      students: PropTypes.arrayOf(PropTypes.shape({
-        _id: PropTypes.string,
-        firstName: PropTypes.string,
-        picture: PropTypes.string,
-        evaluation: PropTypes.arrayOf(PropTypes.shape({
-          colour: PropTypes.string,
-          date: PropTypes.date,
-          remark: PropTypes.string,
-        }))
-      }))
-    }),
-  }
+  constructor(props) {
+    super()
+
+    const { randomStudent} = props
+    this.state = { randomStudent }
+    }
 
   componentWillMount() {
     const { batch, fetchOneBatch } = this.props
@@ -37,10 +25,32 @@ class Batch extends PureComponent {
     const countColour = batch.students.filter((count)=> {
       return count.evaluation[count.evaluation.length-1].colour === colour
       })
-      console.log(countColour);
+      // console.log(countColour);
     return countColour
   }
 
+  randomSelect() {
+    const myArray = ["R","R","R","Y","Y","G"]
+    const OneColour = myArray[Math.floor(Math.random()*myArray.length)];
+    const greenCount = this.percentageColour('G')
+    const yellowCount = this.percentageColour('Y')
+    const redCount = this.percentageColour('R')
+    const selectGreenCount = greenCount[Math.floor(Math.random()*greenCount.length)]
+    const selectYellowCount = yellowCount[Math.floor(Math.random()*yellowCount.length)]
+    const selectRedCount = redCount[Math.floor(Math.random()*redCount.length)]
+    const selectGreenName = selectGreenCount.firstName
+    const selectYellowName = selectYellowCount.firstName
+    const selectRedName = selectRedCount.firstName
+    console.log(OneColour)
+
+    if (OneColour === "G") {
+        this.setState({randomStudent: selectGreenName})
+    } else if (OneColour === "Y") {
+        this.setState({randomStudent: selectYellowName})
+    } else {
+        this.setState({randomStudent: selectRedName})
+    }
+    }
 
   render() {
     const { batch } = this.props
@@ -60,7 +70,9 @@ class Batch extends PureComponent {
         <header>
           <h1>This is batch.. #{batch.number}</h1>
           <h3>Current percentages: green = {greenPercentage}% red = {redPercentage}% yellow = {yellowPercentage}%</h3>
-          <p>button to pick a student here</p>
+
+          <button onClick={this.randomSelect.bind(this)}>Select a student to answer your question</button>
+          <p>Please ask: {this.state.randomStudent}</p>
         </header>
 
         <main>
