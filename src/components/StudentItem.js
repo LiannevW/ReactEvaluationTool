@@ -26,7 +26,7 @@ class StudentItem extends PureComponent {
     return (
       <div>
          <p key={index}>
-         Colour = {evaluation.colour} <br />
+         Colour= {evaluation.colour} <br />
          Remark={evaluation.remark} < br/>
          datum={evaluation.date}</p>
        </div>
