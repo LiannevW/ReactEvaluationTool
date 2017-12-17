@@ -8,7 +8,6 @@ export default (state = [], { type, payload } = {}) => {
       return [ ...payload ]
 
     case FETCHED_ONE_BATCH :
-      console.log(state)
       const batchIds = state.map(g => g._id)
       if (batchIds.indexOf(payload._id) < 0) {
         return [{ ...payload }].concat(state)

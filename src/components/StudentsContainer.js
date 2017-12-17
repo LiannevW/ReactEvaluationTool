@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {push} from 'react-router-redux'
 import { fetchOneBatch } from '../actions/batch/fetch'
-import EvaluationPercentages from './EvaluationPercentages'
 import './StudentsContainer.css'
 
 class Batch extends PureComponent {
@@ -31,19 +30,36 @@ class Batch extends PureComponent {
     if (!batch) { fetchOneBatch(batchId) }
   }
 
-  linkToOneStudent = (batchId, studentsId) => event => this.props.push(`/class/${batchId}/${studentsId}`)
+  linkToOneStudent = (batchId, studentsId) => event => this.props.push(`/class/${batchId}/${studentsId}`);
+
+  percentageColour(colour){
+    const { batch } = this.props
+    const countColour = batch.students.filter((count)=> {
+      return count.evaluation[count.evaluation.length-1].colour === colour
+      })
+      console.log(countColour);
+    return countColour
+  }
+
 
   render() {
     const { batch } = this.props
-
     if (!batch) return null
+
+    const greenCount = this.percentageColour('G').length
+    const redCount = this.percentageColour('R').length
+    const yellowCount = this.percentageColour('Y').length
+    const totalCount = batch.students.length
+    const greenPercentage = greenCount/totalCount*100;
+    const yellowPercentage = yellowCount/totalCount*100;
+    const redPercentage = redCount/totalCount*100;
 
     return(
       <div>
 
         <header>
           <h1>This is batch.. #{batch.number}</h1>
-          <EvaluationPercentages />
+          <h3>Current percentages: green = {greenPercentage}% red = {redPercentage}% yellow = {yellowPercentage}%</h3>
           <p>button to pick a student here</p>
         </header>
 
@@ -55,6 +71,8 @@ class Batch extends PureComponent {
           )}
         </main>
 
+        <footer>
+        </footer>
       </div>
     )
   }

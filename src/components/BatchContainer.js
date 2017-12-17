@@ -23,7 +23,6 @@ class BatchContainer extends PureComponent {
 
   render() {
     const { batches } = this.props
-    console.log(batches)
     // if (!batches) { return null }
 
     return(

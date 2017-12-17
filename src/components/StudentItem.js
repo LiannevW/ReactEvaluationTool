@@ -20,6 +20,8 @@ class StudentItem extends PureComponent {
     if (!batch) { fetchOneBatch(batchId) }
   }
 
+  linkToBatch = batchId => event => this.props.push(`/batches/${batchId}`)
+
   renderEvaluation = (evaluation, index) => {
     return (
       <div>
@@ -36,16 +38,18 @@ class StudentItem extends PureComponent {
     if (!batch) return null
     const {studentId} = this.props.match.params
     const thisStudent = batch.students.filter((s) => (s._id === studentId))[0]
-    console.log(thisStudent);
-    console.log(thisStudent.evaluation);
-    console.log(thisStudent.evaluation.remark);
 
     return (
       <div>
-        <h1> {thisStudent.firstName} </h1>
-        <img className="pictureStudent" src={thisStudent.picture} alt=""/>
-        <p> Name: {thisStudent.firstName} {thisStudent.lastName} </p>
-        {thisStudent.evaluation.map(this.renderEvaluation)}
+        <header>
+          <h1> {thisStudent.firstName} </h1>
+          <img className="pictureStudent" src={thisStudent.picture} alt=""/>
+          <p> Name: {thisStudent.firstName} {thisStudent.lastName} </p>
+          {thisStudent.evaluation.map(this.renderEvaluation)}
+        </header>
+        <footer>
+          <p onClick={this.linkToBatch(batch._id,)}> Back to batch</p>
+        </footer>
       </div>
     )
   }
