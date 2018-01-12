@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import {push} from 'react-router-redux'
 import { fetchOneBatch } from '../actions/batch/fetch'
+import StudentEditor from './StudentEditor'
 import './StudentsContainer.css'
 
 class Batch extends PureComponent {
@@ -84,6 +85,7 @@ class Batch extends PureComponent {
         </main>
 
         <footer>
+            <StudentEditor />
         </footer>
       </div>
     )
