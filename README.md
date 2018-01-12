@@ -13,7 +13,7 @@ The final assignment for Codaiseur Academy was to build an Evaluation Tool for T
 - Styling
 
 # Preview
-<img src="" width="300" height="200" />
+<img src="https://github.com/LiannevW/ReactEvaluationTool/blob/master/src/fixtures/screenShotForPreview.png" width="300" height="200" />
 
 # Running Locally
 
