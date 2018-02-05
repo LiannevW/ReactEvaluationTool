@@ -14,7 +14,7 @@ export class BatchItem extends PureComponent {
     return(
         <div>
           <Link to={`/batches/${_id}`}>Batch #{number}</Link> <br />
-          {startDate} - {endDate}
+          {new Date(startDate).toLocaleDateString("nl-NL")} - {new Date(endDate).toLocaleDateString("nl-NL")}
         </div>
     )
   }
